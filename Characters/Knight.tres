@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="character" format=3 uid="uid://b027py0sru57x"]
 
 [ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="1_qiwnt"]
-[ext_resource type="Texture2D" uid="uid://i32hqom2yvvt" path="res://icon.svg" id="2_icafy"]
+[ext_resource type="Texture2D" uid="uid://i32hqom2yvvt" path="res://Sprites/icon.svg" id="2_icafy"]
 
 [resource]
 script = ExtResource("1_qiwnt")
@@ -11,4 +11,5 @@ life = 5
 attack = 5
 move = 5
 reach = 5
+node_size = Vector2(0.1, 0.1)
 metadata/_custom_type_script = "uid://27ptawmf3pgk"

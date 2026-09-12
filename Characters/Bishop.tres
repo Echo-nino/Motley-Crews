@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="character" format=3 uid="uid://cmsedbfjr165l"]
+
+[ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="1_0dpma"]
+[ext_resource type="Texture2D" uid="uid://cptnuepug8csh" path="res://Sprites/Green Can.png" id="2_o6r21"]
+
+[resource]
+script = ExtResource("1_0dpma")
+name = "Bishop"
+sprite = ExtResource("2_o6r21")
+life = 20
+attack = 5
+move = 2
+reach = 2
+movement_type = 1
+node_size = Vector2(0.2, 0.2)
+metadata/_custom_type_script = "uid://27ptawmf3pgk"

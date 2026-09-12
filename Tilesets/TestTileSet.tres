@@ -1,14 +1,15 @@
-[gd_resource type="TileSet" format=3 uid="uid://drssh5uvyap6e"]
+[gd_resource type="TileSet" format=3 uid="uid://dce8d1nfkvtod"]
 
-[ext_resource type="Texture2D" uid="uid://dn48wg3hw6abg" path="res://Sprites/terrain.png" id="1_nvti7"]
+[ext_resource type="Texture2D" uid="uid://dn48wg3hw6abg" path="res://Sprites/terrain.png" id="1_3jptu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0eno7"]
-texture = ExtResource("1_nvti7")
+texture = ExtResource("1_3jptu")
 texture_region_size = Vector2i(32, 32)
 1:1/0 = 0
 1:1/0/texture_origin = Vector2i(0, -8)
 2:1/0 = 0
 2:1/0/texture_origin = Vector2i(0, -8)
+2:1/0/custom_data_0 = true
 3:1/0 = 0
 3:1/0/texture_origin = Vector2i(0, -8)
 4:1/0 = 0
@@ -37,9 +38,8 @@ texture_region_size = Vector2i(32, 32)
 15:1/0/texture_origin = Vector2i(0, -8)
 
 [resource]
-tile_shape = 1
 tile_layout = 5
-tile_size = Vector2i(32, 16)
+tile_size = Vector2i(32, 32)
 custom_data_layer_0/name = "Wall"
 custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_0eno7")

@@ -12,6 +12,9 @@ class_name character
 
 @export var movement_type: direction_types
 
+@export_category("Debug")
+@export var node_size: Vector2 = Vector2(1, 1)
+
 
 enum direction_types{
 	Normal,
@@ -34,7 +37,7 @@ var enum_to_direction: Dictionary = {
 	direction_types.Diagonal: directions_diagonal,
 	}
 
-func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMapLayer, cells_to_avoid: Array[Vector2i], directions: direction_types) -> Dictionary[Vector2i, int]:
+func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMapLayer, occupied_cells: Dictionary[Vector2i, Node2D], directions: direction_types) -> Dictionary[Vector2i, int]:
 	#IT FreaCKING WORKS!! Also it is Dijkstra's algorithm
 	
 	
@@ -47,14 +50,10 @@ func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMa
 	
 	for i in game_tile_map_layer.get_used_cells():
 			
-		#check if a cells_to_avoid is already there
-		var cells_to_avoid_found: bool = false
-		for j in cells_to_avoid:
-			if j == i && i != current_coords:
-				cells_to_avoid_found = true
-				break
-		if cells_to_avoid_found == true:
+		#check if the cell is occupied
+		if occupied_cells.has(i):
 			continue
+		
 			
 		#Check if it is a wall
 		if game_tile_map_layer.get_cell_tile_data(i).get_custom_data("Wall"):
@@ -103,9 +102,38 @@ func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMa
 	#print_debug(all_cells)
 	return all_cells
 
+func MoveDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMapLayer, occupied_cells: Dictionary[Vector2i, Node2D], directions: direction_types) -> Dictionary[Vector2i, int]:
+	var dir = enum_to_direction[directions]
+		
+	var reachable_cells: Dictionary[Vector2i, int] = {}
+	var used_cells = game_tile_map_layer.get_used_cells()
+	
+	for d in dir:
+		
+		for i in 8:#8 is the size of the game board(I will not change the size so it should be fine)
+			var cell = current_coords+d*i
+			
+			#check if the tile is on the board
+			if !used_cells.has(cell):
+				continue
+				
+			#check if the cell is occupied except by the character being moved
+			if occupied_cells.has(cell):
+				if cell != current_coords:
+					break
+			
+			#Check if it is a wall
+			if game_tile_map_layer.get_cell_tile_data(cell).get_custom_data("Wall"):
+				continue
+				
+			
+				
+			reachable_cells.get_or_add(cell, i)
+		
+	return reachable_cells
+
 func PathfindToCoords(current_coords:Vector2i, target_coords: Vector2i, cell_distances: Dictionary[Vector2i, int]) -> Array[Vector2i]:
 	var path: Array[Vector2i] = []
-	
 	
 	#IT FreaCKING WORKS!! Also it is Dijkstra's algorithm
 	
@@ -126,6 +154,9 @@ func PathfindToCoords(current_coords:Vector2i, target_coords: Vector2i, cell_dis
 	for i in path.size():
 		temp_path.append(path[path.size()-i-1])
 	path = temp_path
+	
+	#print_debug("cell_distances: "+ str(cell_distances))
+	#print_debug("Path: "+str(path))
 	
 	return path
 

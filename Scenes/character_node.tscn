@@ -6,4 +6,3 @@
 script = ExtResource("1_ty4lf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=934303395]
-scale = Vector2(0.1, 0.1)

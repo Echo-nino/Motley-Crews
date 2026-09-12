@@ -24,10 +24,12 @@ var has_piece_actioned: bool = false:
 
 @onready var all_entitys: Dictionary[Vector2i, Node2D]
 
+var occupied_cells: Dictionary[Vector2i, Node2D]:
+	get:
+		return all_entitys
 
 
-#Used For custom objects to avoid by entitys getting cell distances
-var empty_array: Array[Vector2i] = []
+
 
 var current_target_entity: Node2D = null
 
@@ -73,8 +75,11 @@ func GameInput(target_coords: Vector2i):
 				#current_target_entity.attack_cell_distances = current_target_entity.entity_data.CellDistanceFromCoords(current_target_entity.current_coords, terrain_tile_map_layer, empty_array)
 				
 				#distance of all cells
-				current_target_entity.cell_distances = current_target_entity.data.CellDistanceFromCoords(current_target_entity.current_coords, game_board, empty_array, current_target_entity.data.movement_type)
+				var cell_distances = current_target_entity.data.CellDistanceFromCoords(current_target_entity.current_coords, game_board, occupied_cells, current_target_entity.data.movement_type)
+				var move_distances = current_target_entity.data.MoveDistanceFromCoords(current_target_entity.current_coords, game_board, occupied_cells, current_target_entity.data.movement_type)
 				
+				current_target_entity.cell_distances = cell_distances
+				current_target_entity.move_distances = move_distances
 				#distance of all cells with attackable entitys
 				#var all_attackable_cells = current_target_entity.entity_data.CellDistanceFromCoords(current_target_entity.current_coords, game_board, empty_array, current_target_entity.data.attack_type)
 				#var cells_with_attackable_entitys: Dictionary[Vector2i, int]
@@ -93,12 +98,23 @@ func GameInput(target_coords: Vector2i):
 				
 		elif game_state == game_states.choosing_actions:
 			var action_results: String = "FAILURE"
+			
+			
+					
+			
 			##ATTACK!
 			#if action_results == "FAILURE":
 				#action_results = AttemptAttackEntityAtCoords(current_target_entity, target_coords)
 			if action_results == "FAILURE":
 				action_results = AttemptMoveEntityToCoords(current_target_entity, target_coords)
 				
+			#if using an action on the character using the action
+			if action_results == "FAILURE":
+				if current_target_entity.current_coords == target_coords:
+					game_state = game_states.selecting_character
+					action_results = "SUCCESS"
+					print_debug("current_target_coords: "+str(current_target_entity.current_coords))
+					
 			if action_results == "SUCCESS":
 				game_state = game_states.selecting_character
 				
@@ -120,17 +136,23 @@ func AttemptMoveEntityToCoords(entity: Node2D, target_coords: Vector2i) -> Strin
 	#if AreCoordsOnTerrain(target_coords) == "FAILURE":
 		#return "FAILURE"
 	#if target_coords has an entity
+	print_debug(target_coords)
+	
 	if all_entitys.has(target_coords):
 		return "FAILURE"
 		
-	if !entity.cell_distances.has(target_coords):
+	if !entity.move_distances.has(target_coords):
 		return "FAILURE"
 	#get path
 	#var cells_to_avoid: Array[Vector2i] = all_entitys.keys()
 	#var cell_distances_movement = entity.entity_data.CellDistanceFromCoords(entity.current_coords, terrain_tile_map_layer, cells_to_avoid)
-	var path = entity.data.PathfindToCoords(entity.current_coords, target_coords, entity.cell_distances)
+	var path = entity.data.PathfindToCoords(entity.current_coords, target_coords, entity.move_distances)
 	#target_coords too far away
 	if path.size() > entity.data.move:
+		return "FAILURE"
+	
+	#No path to target
+	if path.size() == 0:
 		return "FAILURE"
 	
 	MoveEntityToCoords(entity, path)
