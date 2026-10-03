@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://q8refgls2fm6"]
 
 [ext_resource type="Script" uid="uid://ltih7fyffdnt" path="res://Scripts/character_controller.gd" id="1_ty4lf"]
+[ext_resource type="Texture2D" uid="uid://i32hqom2yvvt" path="res://Sprites/icon.svg" id="2_tk617"]
 
 [node name="CharacterNode" type="Node2D" unique_id=110438660]
 script = ExtResource("1_ty4lf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=934303395]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_tk617")

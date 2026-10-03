@@ -1,16 +1,23 @@
 extends Resource
-class_name character
+class_name Character
 
 @export var name: String
 @export var sprite: Texture
 
 
-@export var life: int
-@export var attack: int
-@export var move: int
-@export var reach: int
+@export var damage_type: damage_type_class.damage_types
+
+
+@export var life: int = 4
+@export var attack: int = 3
+@export var move: int = 3
+@export var reach: int = 2
 
 @export var movement_type: direction_types
+@export var attack_type: direction_types
+
+@export var abilitys: Array[Ability]
+@export var special_actions: Array[SpecialAction]
 
 @export_category("Debug")
 @export var node_size: Vector2 = Vector2(1, 1)
@@ -18,7 +25,8 @@ class_name character
 
 enum direction_types{
 	Normal,
-	Diagonal
+	Diagonal,
+	Queen
 }
 var directions_normal: Array[Vector2i] = [
 			Vector2i(0, 1),
@@ -32,9 +40,21 @@ var directions_diagonal: Array[Vector2i] = [
 			Vector2i(-1, 1),
 			Vector2i(-1, -1)
 		]
+var directions_queen: Array[Vector2i] = [
+			Vector2i(0, 1),
+			Vector2i(0, -1),
+			Vector2i(1, 0),
+			Vector2i(-1, 0),
+			Vector2i(1, 1),
+			Vector2i(1, -1),
+			Vector2i(-1, 1),
+			Vector2i(-1, -1)
+			
+		]
 var enum_to_direction: Dictionary = {
 	direction_types.Normal: directions_normal,
 	direction_types.Diagonal: directions_diagonal,
+	direction_types.Queen: directions_queen
 	}
 
 func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMapLayer, occupied_cells: Dictionary[Vector2i, Node2D], directions: direction_types) -> Dictionary[Vector2i, int]:
@@ -49,10 +69,11 @@ func CellDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMa
 	
 	
 	for i in game_tile_map_layer.get_used_cells():
-			
-		#check if the cell is occupied
-		if occupied_cells.has(i):
-			continue
+		
+		#wtf did I have this here??
+		##check if the cell is occupied
+		#if occupied_cells.has(i):
+			#continue
 		
 			
 		#Check if it is a wall
@@ -126,11 +147,51 @@ func MoveDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMa
 			if game_tile_map_layer.get_cell_tile_data(cell).get_custom_data("Wall"):
 				continue
 				
+			#check if it is greater than move
+			if i >= move:
+				continue
+				
 			
 				
 			reachable_cells.get_or_add(cell, i)
 		
 	return reachable_cells
+
+func AttackDistanceFromCoords(current_coords:Vector2i, game_tile_map_layer: TileMapLayer, occupied_cells: Dictionary[Vector2i, Node2D], directions: direction_types) -> Dictionary[Vector2i, int]:
+	var dir = enum_to_direction[directions]
+		
+	var reachable_cells: Dictionary[Vector2i, int] = {}
+	var used_cells = game_tile_map_layer.get_used_cells()
+	
+	for d in dir:
+		
+		for i in 8:#8 is the size of the game board(I will not change the size so it should be fine)
+			var cell = current_coords+d*i
+			
+			#check if the tile is on the board
+			if !used_cells.has(cell):
+				continue
+				
+			
+			
+			#Check if it is a wall
+			if game_tile_map_layer.get_cell_tile_data(cell).get_custom_data("Wall"):
+				continue
+				
+			#check if it is greater than reach
+			if i > reach:
+				continue
+				
+				
+			#check if the cell is occupied except by the character being moved
+			if occupied_cells.has(cell):
+				if cell != current_coords:
+					reachable_cells.get_or_add(cell, i)
+					break
+		
+	
+	return reachable_cells
+
 
 func PathfindToCoords(current_coords:Vector2i, target_coords: Vector2i, cell_distances: Dictionary[Vector2i, int]) -> Array[Vector2i]:
 	var path: Array[Vector2i] = []
@@ -141,6 +202,7 @@ func PathfindToCoords(current_coords:Vector2i, target_coords: Vector2i, cell_dis
 	var temp_target_coords = target_coords
 	var movement_directions = enum_to_direction[movement_type]
 	
+	
 	for j in cell_distances[target_coords]:#for the distance from target_coords
 		for dir in movement_directions:#for each direction the entity can move in
 			if cell_distances.has(temp_target_coords - dir):#if the coords are reachable
@@ -148,6 +210,7 @@ func PathfindToCoords(current_coords:Vector2i, target_coords: Vector2i, cell_dis
 					temp_target_coords -= dir
 					#print_debug("dir: "+str(dir))
 					path.append(dir)
+					break
 					
 	#Invert the path(This is stupid)
 	var temp_path: Array[Vector2i]

@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="3_35xla"]
 [ext_resource type="Resource" uid="uid://b027py0sru57x" path="res://Characters/Knight.tres" id="4_i3aeo"]
 [ext_resource type="PackedScene" uid="uid://q8refgls2fm6" path="res://Scenes/character_node.tscn" id="5_5wyu1"]
-[ext_resource type="Resource" uid="uid://c2cpw8obh741v" path="res://Characters/Bishop.tres" id="7_2cgwh"]
 [ext_resource type="PackedScene" uid="uid://c0ggr6dnuj3jy" path="res://Scenes/card.tscn" id="9_2cgwh"]
 
 [node name="Test" type="Node2D" unique_id=1841886493]
@@ -23,9 +22,6 @@ script = ExtResource("2_qc4db")
 starting_player_one_characters = Dictionary[Vector2i, ExtResource("3_35xla")]({
 Vector2i(2, -6): ExtResource("4_i3aeo"),
 Vector2i(2, -2): ExtResource("4_i3aeo")
-})
-starting_player_two_characters = Dictionary[Vector2i, ExtResource("3_35xla")]({
-Vector2i(6, -6): ExtResource("7_2cgwh")
 })
 character_node = ExtResource("5_5wyu1")
 game_board = NodePath("../Board")

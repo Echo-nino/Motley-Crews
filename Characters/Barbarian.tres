@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="character" format=3 uid="uid://utaree3jed2"]
+
+[ext_resource type="Script" uid="uid://mpj7nurwwrye" path="res://Scripts/ability.gd" id="1_02lir"]
+[ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="1_tsec1"]
+[ext_resource type="Script" uid="uid://cy530aehidt4e" path="res://Scripts/Abilitys/extra_damage.gd" id="2_tw0g8"]
+[ext_resource type="Script" uid="uid://qfrsktoo33f8" path="res://Scripts/special_action.gd" id="4_qcm4h"]
+
+[sub_resource type="Resource" id="Resource_b83n8"]
+script = ExtResource("2_tw0g8")
+from_type = 2
+amount = 6
+metadata/_custom_type_script = "uid://cy530aehidt4e"
+
+[resource]
+script = ExtResource("1_tsec1")
+name = "barbarian"
+life = 6
+attack = 4
+abilitys = Array[ExtResource("1_02lir")]([SubResource("Resource_b83n8")])
+metadata/_custom_type_script = "uid://27ptawmf3pgk"

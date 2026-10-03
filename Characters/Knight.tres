@@ -1,7 +1,16 @@
 [gd_resource type="Resource" script_class="character" format=3 uid="uid://b027py0sru57x"]
 
+[ext_resource type="Script" uid="uid://mpj7nurwwrye" path="res://Scripts/ability.gd" id="1_3wxcr"]
 [ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="1_qiwnt"]
 [ext_resource type="Texture2D" uid="uid://i32hqom2yvvt" path="res://Sprites/icon.svg" id="2_icafy"]
+[ext_resource type="Script" uid="uid://cy530aehidt4e" path="res://Scripts/Abilitys/extra_damage.gd" id="2_qsvg3"]
+[ext_resource type="Script" uid="uid://qfrsktoo33f8" path="res://Scripts/special_action.gd" id="4_31u08"]
+
+[sub_resource type="Resource" id="Resource_3b47a"]
+script = ExtResource("2_qsvg3")
+from_type = 2
+amount = 5
+metadata/_custom_type_script = "uid://cy530aehidt4e"
 
 [resource]
 script = ExtResource("1_qiwnt")
@@ -11,5 +20,6 @@ life = 5
 attack = 5
 move = 5
 reach = 5
+abilitys = Array[ExtResource("1_3wxcr")]([SubResource("Resource_3b47a")])
 node_size = Vector2(0.1, 0.1)
 metadata/_custom_type_script = "uid://27ptawmf3pgk"

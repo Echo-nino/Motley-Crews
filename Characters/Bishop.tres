@@ -1,16 +1,17 @@
-[gd_resource type="Resource" script_class="character" format=3 uid="uid://cmsedbfjr165l"]
+[gd_resource type="Resource" script_class="SquarePathfinding" format=3 uid="uid://c2cpw8obh741v"]
 
-[ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="1_0dpma"]
-[ext_resource type="Texture2D" uid="uid://cptnuepug8csh" path="res://Sprites/Green Can.png" id="2_o6r21"]
+[ext_resource type="Script" uid="uid://mpj7nurwwrye" path="res://Scripts/ability.gd" id="1_bexnm"]
+[ext_resource type="Script" uid="uid://383xxf8dcl4b" path="res://Scripts/square_pathfinding.gd" id="2_576l0"]
+[ext_resource type="Script" uid="uid://qfrsktoo33f8" path="res://Scripts/special_action.gd" id="3_baqxs"]
+[ext_resource type="Texture2D" uid="uid://cptnuepug8csh" path="res://Sprites/Green Can.png" id="4_576l0"]
 
 [resource]
-script = ExtResource("1_0dpma")
+script = ExtResource("2_576l0")
 name = "Bishop"
-sprite = ExtResource("2_o6r21")
-life = 20
-attack = 5
-move = 2
-reach = 2
-movement_type = 1
+sprite = ExtResource("4_576l0")
+damage_type = 2
+move = 4
+movement_type = 2
+attack_type = 2
 node_size = Vector2(0.2, 0.2)
-metadata/_custom_type_script = "uid://27ptawmf3pgk"
+metadata/_custom_type_script = "uid://383xxf8dcl4b"

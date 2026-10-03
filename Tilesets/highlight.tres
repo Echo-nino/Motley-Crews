@@ -1,0 +1,32 @@
+[gd_resource type="TileSet" format=3 uid="uid://dfchib0sqj1lr"]
+
+[ext_resource type="Texture2D" uid="uid://c8r8q6x8jkgk1" path="res://Sprites/highlight.png" id="1_e727g"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wcyo8"]
+texture = ExtResource("1_e727g")
+texture_region_size = Vector2i(32, 16)
+0:2/0 = 0
+1:2/0 = 0
+0:0/0 = 0
+0:1/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wcyo8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uf8cc"]
+texture = SubResource("CompressedTexture2D_wcyo8")
+texture_region_size = Vector2i(32, 16)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+
+[resource]
+tile_shape = 1
+tile_layout = 5
+tile_size = Vector2i(32, 16)
+sources/0 = SubResource("TileSetAtlasSource_wcyo8")
+sources/1 = SubResource("TileSetAtlasSource_uf8cc")

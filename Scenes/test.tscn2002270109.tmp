@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://co8fyil6l71yq"]
+
+[ext_resource type="PackedScene" uid="uid://ctkv4mk6hgl7w" path="res://Scenes/Board.tscn" id="1_8od7v"]
+[ext_resource type="Script" uid="uid://ubrynscwjpl6" path="res://Scripts/game_manager.gd" id="2_qc4db"]
+[ext_resource type="Script" uid="uid://27ptawmf3pgk" path="res://Scripts/character_resource.gd" id="3_35xla"]
+[ext_resource type="Resource" uid="uid://b027py0sru57x" path="res://Characters/Knight.tres" id="4_i3aeo"]
+[ext_resource type="PackedScene" uid="uid://q8refgls2fm6" path="res://Scenes/character_node.tscn" id="5_5wyu1"]
+[ext_resource type="Resource" uid="uid://cmsedbfjr165l" path="res://Characters/Bishop.tres" id="5_i3aeo"]
+
+[node name="Test" type="Node2D" unique_id=1841886493]
+
+[node name="Board" parent="." unique_id=1153869952 instance=ExtResource("1_8od7v")]
+
+[node name="GameManager" type="Node2D" parent="." unique_id=1795936180 node_paths=PackedStringArray("game_board", "game_state_label", "turn_label", "has_moved_label", "has_actioned_label")]
+script = ExtResource("2_qc4db")
+starting_player_one_characters = Dictionary[Vector2i, ExtResource("3_35xla")]({
+Vector2i(2, -6): ExtResource("4_i3aeo"),
+Vector2i(2, -2): ExtResource("4_i3aeo")
+})
+starting_player_two_characters = Dictionary[Vector2i, ExtResource("3_35xla")]({
+Vector2i(6, -6): ExtResource("5_i3aeo")
+})
+character_node = ExtResource("5_5wyu1")
+game_board = NodePath("../Board")
+game_state_label = NodePath("../CanvasLayer/VBoxContainer/Game State")
+turn_label = NodePath("../CanvasLayer/VBoxContainer/Turn")
+has_moved_label = NodePath("../CanvasLayer/VBoxContainer/Has Moved")
+has_actioned_label = NodePath("../CanvasLayer/VBoxContainer/Has Actioned")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1347290378]
+position = Vector2(112, 0)
+zoom = Vector2(3.63, 3.63)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=499053920]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1050779530]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Game State" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=922359213]
+layout_mode = 2
+text = "Game State: selecting_character"
+
+[node name="Turn" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=1551066100]
+layout_mode = 2
+text = "Player Turn: True"
+
+[node name="Has Moved" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=111562124]
+layout_mode = 2
+text = "Has Moved: false"
+
+[node name="Has Actioned" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=1083890137]
+layout_mode = 2
+text = "Has Actioned: false"
